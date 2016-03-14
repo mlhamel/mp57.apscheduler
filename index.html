@@ -323,7 +323,8 @@ a.anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>How to Install</strong></p>
-<p>$ pip install apscheduler</p>
+<div class="highlight"><pre><span></span>$ pip install apscheduler
+</pre></div>
 
 </div>
 </div>
@@ -608,13 +609,50 @@ a.anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Jobstores</strong></p>
-<p>By default, the memory jobstore is used but you can always choose a different one like:</p>
-<ul>
-<li>SQLAlchemy</li>
-<li>Redis</li>
-<li>RethinkDB</li>
-<li>MongoDB</li>
-</ul>
+<p>By default, the memory jobstore is used but you can always choose a different one like.</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">apscheduler.schedulers.blocking</span> <span class="k">import</span> <span class="n">BlockingScheduler</span>
+
+<span class="k">def</span> <span class="nf">alarm</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Alarm! This alarm was scheduled at </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">time</span><span class="p">)</span>
+    
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">BlockingScheduler</span><span class="p">()</span>
+<span class="n">scheduler</span><span class="o">.</span><span class="n">add_jobstore</span><span class="p">(</span><span class="s1">&#39;sqlalchemy&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;sqlite:///example.sqlite&#39;</span><span class="p">)</span>
+
+<span class="n">scheduler</span><span class="o">.</span><span class="n">add_job</span><span class="p">(</span><span class="n">alarm</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">run_date</span><span class="o">=</span><span class="n">alarm_time</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()])</span>
+<span class="n">scheduler</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">apscheduler_jobs</span> <span class="p">(</span>
+    <span class="n">id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">191</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">next_run_time</span> <span class="nb">FLOAT</span><span class="p">,</span>
+    <span class="n">job_state</span> <span class="nb">BLOB</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">ix_apscheduler_jobs_next_run_time</span> 
+<span class="k">ON</span> <span class="n">apscheduler_jobs</span><span class="p">(</span><span class="n">next_run_time</span><span class="p">);</span>
+</pre></div>
 
 </div>
 </div>
