@@ -252,7 +252,9 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Overview</strong></p>
+<p><strong>Montréal-Python 57: POTM (Project of the Month)</strong></p>
+<p>APScheduler: Advanced Python Scheduler</p>
+<p>Monday April 14th 2016</p>
 
 </div>
 </div>
@@ -262,44 +264,33 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>What is APScheduler</strong></p>
 <p>APScheduler is a task scheduling and management system written in Python.</p>
-<p>Thinking of it as a cron/at daemon running inside your application is not far off, but APScheduler also provides management and monitoring of jobs, and much more.</p>
+<p>Think of it as a cron/at daemon running inside your application is not far off, but APScheduler also provides management and monitoring of jobs, and much more.</p>
 
 </div>
 </div>
-</div><aside class="notes">
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>&lt;agronholm&gt; well, because I had a Java project that relied on Quartz and the only scheduling alternative on Python was Celery
-&lt;agronholm&gt; I was porting my code over to Python
-&lt;agronholm&gt; and Celery was way overkill
-...
-&lt;agronholm&gt; my intention is to create a new job queueing/scheduling component for my Asphalt framework
-&lt;agronholm&gt; when done I expect it to be superior to celery in every way
-    ...
-&lt;agronholm&gt; asphalt is an asyncio based framework where you can mix async and blocking code</code></pre>
-<p><strong>Interesting points</strong></p>
-
-<pre><code>* Event listener</code></pre>
-
-</div>
-</div>
-</div>
-</aside></section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>The author</strong></p>
-<p>Alex Grönholm, the main author of APScheduler is self employed as a contractor.</p>
+<p>Alex Grönholm, the main author of APScheduler. is self employed as a contractor.</p>
 <p>He is living in Finland.</p>
-<p>He developed APScheduler while he working on a Java project which relied on Quartz.</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong> Why </strong></p>
+<p>Alex built APScheduler while he was working on a Java project which was relying on Quartz (<a href="https://quartz-scheduler.org/">https://quartz-scheduler.org/</a>)</p>
+<p><img width="400px" src="https://raw.githubusercontent.com/mlhamel/mp57.apscheduler/master/6018_3568.jpeg" /></p>
 <p>He wanted to migrate everything to Python, but the only scheduling alternative on Python was Celery</p>
 
 </div>
@@ -310,7 +301,16 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>What about Celery</strong></p>
+<p><img width="400px" src="https://raw.githubusercontent.com/mlhamel/mp57.apscheduler/master/celery2.jpeg"></p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Celery is a distributed task queue with basic scheduling capabilities, while APScheduler is a full featured scheduler with basic task queuing capabilities.</p>
 <p>APScheduler tend to be easier to setup and to integrate with an existing solution.</p>
 
@@ -323,15 +323,6 @@ a.anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>How to Install</strong></p>
-
-</div>
-</div>
-</div></section><section>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>$ pip install apscheduler</p>
 
 </div>
@@ -343,7 +334,6 @@ a.anchor-link {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>How does it work</strong></p>
-<p>You define a series of jobs and the rules about when they should run</p>
 
 </div>
 </div>
@@ -443,10 +433,11 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">apscheduler.executors.pool</span> <span class="k">import</span> <span class="n">ProcessPoolExecutor</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pytz</span> <span class="k">import</span> <span class="n">utc</span>
+<span class="kn">from</span> <span class="nn">apscheduler.executors.pool</span> <span class="k">import</span> <span class="n">ProcessPoolExecutor</span>
 <span class="kn">from</span> <span class="nn">apscheduler.schedulers.background</span> <span class="k">import</span> <span class="n">BackgroundScheduler</span>
 
 <span class="n">executors</span> <span class="o">=</span> <span class="p">{</span>
@@ -460,16 +451,16 @@ a.anchor-link {
 
 <span class="k">def</span> <span class="nf">my_producer_job</span><span class="p">():</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="c1"># produce stuff and save it the database</span>
+        <span class="k">pass</span> <span class="c1"># produce stuff and save it the database</span>
         
 <span class="k">def</span> <span class="nf">my_consumer_job</span><span class="p">():</span>
-    <span class="c1"># read from the database</span>
+    <span class="k">pass</span> <span class="c1"># read from the database</span>
         
                 
 <span class="n">scheduler</span> <span class="o">=</span> <span class="n">BackgroundScheduler</span><span class="p">()</span>
 
-<span class="n">producer</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">add_job</span><span class="p">(</span><span class="n">my_producer_job</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;producer&quot;</span><span class="p">)</span>
-<span class="n">consumer</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">add_job</span><span class="p">(</span><span class="n">my_consumer_job</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;consumer&quot;</span><span class="p">)</span>
+<span class="n">producer</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">add_job</span><span class="p">(</span><span class="n">my_producer_job</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;producer&quot;</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+<span class="n">consumer</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">add_job</span><span class="p">(</span><span class="n">my_consumer_job</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;consumer&quot;</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="s2">&quot;processpool&quot;</span><span class="p">)</span>
 
 <span class="n">scheduler</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">executors</span><span class="o">=</span><span class="n">executors</span><span class="p">,</span> <span class="n">job_defaults</span><span class="o">=</span><span class="n">job_defaults</span><span class="p">,</span> <span class="n">timezone</span><span class="o">=</span><span class="n">utc</span><span class="p">)</span>
 
@@ -493,10 +484,11 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># event listener</span>
+<span class="kn">from</span> <span class="nn">apscheduler.events</span> <span class="k">import</span> <span class="n">EVENT_JOB_EXECUTED</span><span class="p">,</span> <span class="n">EVENT_JOB_ERROR</span>
 
 <span class="k">def</span> <span class="nf">my_listener</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span>
@@ -514,7 +506,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># custom trigger</span>
@@ -523,39 +515,32 @@ a.anchor-link {
 
 <span class="kn">from</span> <span class="nn">apscheduler.triggers.base</span> <span class="k">import</span> <span class="n">BaseTrigger</span>
 
+<span class="k">def</span> <span class="nf">myfunc</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
 <span class="k">class</span> <span class="nc">MyTrigger</span><span class="p">(</span><span class="n">BaseTrigger</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">get_next_fire_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">previous_fire_time</span><span class="p">,</span> <span class="n">now</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">previous_fire_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
         <span class="n">random_value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="n">previous_fire_time</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span> <span class="o">&gt;</span> <span class="n">random_value</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="n">random_value</span><span class="p">))</span>
+        
+        
 <span class="n">trigger</span> <span class="o">=</span> <span class="n">MyTrigger</span><span class="p">()</span>
-<span class="n">job</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">add_job</span><span class="p">(</span><span class="n">myfunc</span><span class="p">,</span> <span class="n">trigger</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;my_job_id&quot;</span><span class="p">)</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">add_job</span><span class="p">(</span><span class="n">myfunc</span><span class="p">,</span> <span class="n">MyTrigger</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;my_job_id&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;Job (id=f1896b045c2e4e198c3ad5fd34a9fb5e name=myfunc)&gt;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Limiting the number of concurrently executing instances</span>
@@ -588,6 +573,21 @@ a.anchor-link {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># to get all the running jobs</span>
+
+<span class="n">scheduler</span><span class="o">.</span><span class="n">get_jobs</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># shuting down the scheduler</span>
 
 <span class="n">scheduler</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
@@ -601,6 +601,43 @@ a.anchor-link {
 </div>
 </div>
 
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Jobstores</strong></p>
+<p>By default, the memory jobstore is used but you can always choose a different one like:</p>
+<ul>
+<li>SQLAlchemy</li>
+<li>Redis</li>
+<li>RethinkDB</li>
+<li>MongoDB</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Thanks</strong></p>
+<p>Mathieu Leduc-Hamel 
+@mlhamel
+mathieu@montrealpython.org</p>
+<p>More informations about APScheduler and sources of this presentation:</p>
+<ul>
+<li><a href="https://github.com/mlhamel/mp57.apscheduler">https://github.com/mlhamel/mp57.apscheduler</a></li>
+<li><a href="https://apscheduler.readthedocs.org/en/latest/">https://apscheduler.readthedocs.org/en/latest/</a></li>
+<li><a href="https://github.com/agronholm/apscheduler">https://github.com/agronholm/apscheduler</a></li>
+<li><a href="https://github.com/asphalt-framework/asphalt">https://github.com/asphalt-framework/asphalt</a></li>
+</ul>
+
+</div>
+</div>
 </div></section></section>
 </div>
 </div>
